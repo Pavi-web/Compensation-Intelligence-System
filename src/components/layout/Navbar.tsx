@@ -46,8 +46,6 @@ export function Navbar() {
 
         <div className="hidden md:flex items-center gap-4">
           <ThemeToggle />
-          <Button variant="outline" size="sm">Sign In</Button>
-          <Button size="sm">Add Salary</Button>
         </div>
 
         {/* Mobile Navigation */}
@@ -75,8 +73,7 @@ export function Navbar() {
                   </Link>
                 ))}
                 <div className="flex flex-col gap-2 mt-6">
-                  <Button variant="outline" className="w-full">Sign In</Button>
-                  <Button className="w-full">Add Salary</Button>
+                  {/* Additional mobile actions can go here in the future */}
                 </div>
               </nav>
             </SheetContent>

@@ -7,7 +7,10 @@ import { Button } from "@/components/ui/button";
 export function ThemeToggle() {
   const [theme, setTheme] = React.useState<"light" | "dark">("light");
 
+  const [mounted, setMounted] = React.useState(false);
+
   React.useEffect(() => {
+    setMounted(true);
     // Initial theme set
     const root = window.document.documentElement;
     const isDark = root.classList.contains("dark");
@@ -24,6 +27,14 @@ export function ThemeToggle() {
       setTheme("light");
     }
   };
+
+  if (!mounted) {
+    return (
+      <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground">
+        <span className="sr-only">Toggle theme</span>
+      </Button>
+    );
+  }
 
   return (
     <Button
