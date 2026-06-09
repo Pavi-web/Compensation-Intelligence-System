@@ -9,6 +9,8 @@ import { SalaryTable } from "@/components/compensation/SalaryTable";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { Download } from "lucide-react";
+import { toast } from "sonner";
 
 import salariesData from "@/data/salaries.json";
 import { SalaryRecord } from "@/types/salary";
@@ -86,6 +88,33 @@ export default function MarketDataPage() {
     });
   };
 
+  const handleExportCSV = () => {
+    if (filteredRecords.length === 0) {
+      toast.error("No data to export", { description: "Adjust your filters to find records first." });
+      return;
+    }
+
+    const headers = ["Company", "Role", "Level", "Location", "Base Salary", "Bonus", "Stock", "Total Compensation"];
+    const csvContent = [
+      headers.join(","),
+      ...filteredRecords.map(r => 
+        `"${r.company}","${r.role}","${r.level}","${r.location}",${r.baseSalary},${r.bonus},${r.stock},${r.totalCompensation}`
+      )
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", `compensation_data_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    toast.success("Export successful", { description: `Downloaded ${filteredRecords.length} records as CSV.` });
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -143,7 +172,15 @@ export default function MarketDataPage() {
             onFilterChange={setFilters}
           />
           <div className="flex-1 w-full space-y-4">
-            <SearchBar onSearchChange={setSearchQuery} />
+            <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+              <div className="flex-1 w-full sm:max-w-md">
+                <SearchBar onSearchChange={setSearchQuery} />
+              </div>
+              <Button variant="outline" onClick={handleExportCSV} className="shrink-0 group">
+                <Download className="mr-2 h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                Export CSV
+              </Button>
+            </div>
             {filteredRecords.length === 0 ? (
               <EmptyState />
             ) : (

@@ -2,10 +2,11 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowLeftRight } from "lucide-react";
+import { ArrowLeft, ArrowLeftRight, Share2 } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
+import { toast } from "sonner";
 import { CompareTable } from "@/components/compensation/CompareTable";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useSearchParams } from "next/navigation";
@@ -38,17 +39,26 @@ function CompareContent() {
     setSelectedIds((prev) => prev.filter((item) => item !== id));
   };
 
+  const handleCopyLink = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("ids", selectedIds.join(","));
+    navigator.clipboard.writeText(url.toString());
+    toast.success("Link copied to clipboard", {
+      description: "You can now share this comparison with others.",
+    });
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <main className="flex-1 container mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8">
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" render={<Link href="/" />}>
+          <Link href="/" className={buttonVariants({ variant: "ghost", size: "sm" })}>
             <span className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
               <ArrowLeft className="h-4 w-4" />
               Dashboard
             </span>
-          </Button>
+          </Link>
         </div>
 
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -78,9 +88,15 @@ function CompareContent() {
               </SelectContent>
             </Select>
             {selectedIds.length > 0 && (
-              <Button variant="ghost" onClick={() => setSelectedIds([])} className="text-xs">
-                Clear All
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={handleCopyLink} className="h-10 px-3">
+                  <Share2 className="h-4 w-4 mr-2" />
+                  Share
+                </Button>
+                <Button variant="ghost" onClick={() => setSelectedIds([])} className="text-xs h-10">
+                  Clear All
+                </Button>
+              </div>
             )}
           </div>
         </div>

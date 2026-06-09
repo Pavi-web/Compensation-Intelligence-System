@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 // Import local data and types
 import salariesData from "@/data/salaries.json";
@@ -111,15 +112,33 @@ export default function DashboardPage() {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col gap-2"
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border border-primary/10 p-8 sm:p-12 mb-8"
         >
-          <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
-            Compensation Dashboard
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Analyze tech compensation benchmarks across India's top locations.
-          </p>
+          <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
+            <Sparkles className="w-64 h-64 text-primary" />
+          </div>
+          <div className="relative z-10 flex flex-col gap-6 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium w-fit border border-primary/20">
+              <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+              Live Market Data Updates
+            </div>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground">
+              Master your <br />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-[hsl(280,80%,65%)]">
+                Compensation Intelligence
+              </span>
+            </h1>
+            <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
+              Gain unparalleled insights into tech salaries across India's top hubs. Compare packages, discover trends, and make data-driven career decisions.
+            </p>
+            <div className="flex items-center gap-4 pt-4">
+              <Button size="lg" className="rounded-full shadow-lg shadow-primary/25 group" onClick={() => router.push('/market-data')}>
+                Explore Market Data
+                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </div>
+          </div>
         </motion.div>
 
         {/* Overview Stats */}
