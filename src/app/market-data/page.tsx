@@ -7,29 +7,20 @@ import { SearchBar } from "@/components/shared/SearchBar";
 import { FilterSidebar } from "@/components/shared/FilterSidebar";
 import { SalaryTable } from "@/components/compensation/SalaryTable";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
-// Import local data and types
 import salariesData from "@/data/salaries.json";
-import { SalaryRecord, Company, Level, Location } from "@/types/salary";
-
-// Import visual widgets
-import { SalaryCharts } from "@/components/charts/SalaryCharts";
+import { SalaryRecord } from "@/types/salary";
 import { EmptyState } from "@/components/shared/EmptyState";
-import { TableSkeleton } from "@/components/shared/Skeleton";
 
-export default function DashboardPage() {
-  // Safe cast for salaries JSON records
+export default function MarketDataPage() {
   const records = React.useMemo(() => salariesData as SalaryRecord[], []);
 
-  // Unique options for filters
   const companies = React.useMemo(() => Array.from(new Set(records.map((r) => r.company))).sort(), [records]);
   const locations = React.useMemo(() => Array.from(new Set(records.map((r) => r.location))).sort(), [records]);
   const levels = React.useMemo(() => Array.from(new Set(records.map((r) => r.level))).sort(), [records]);
 
-  // States
   const [searchQuery, setSearchQuery] = React.useState({ company: "", role: "" });
   const [filters, setFilters] = React.useState({ company: "", location: "", level: "" });
   const [sortField, setSortField] = React.useState<"company" | "role" | "level" | "location" | "totalCompensation">("totalCompensation");
@@ -37,7 +28,6 @@ export default function DashboardPage() {
   const [comparedRecords, setComparedRecords] = React.useState<SalaryRecord[]>([]);
   const router = useRouter();
 
-  // Filtered and sorted data
   const filteredRecords = React.useMemo(() => {
     return records
       .filter((record) => {
@@ -62,7 +52,6 @@ export default function DashboardPage() {
       });
   }, [records, searchQuery, filters, sortField, sortOrder]);
 
-  // KPIs
   const stats = React.useMemo(() => {
     const totalCompanies = new Set(filteredRecords.map((r) => r.company)).size;
     const averageCompensation = filteredRecords.length
@@ -75,7 +64,6 @@ export default function DashboardPage() {
     return { totalCompanies, averageCompensation, highestCompensation };
   }, [filteredRecords]);
 
-  // Handlers
   const handleSort = (field: typeof sortField) => {
     if (sortField === field) {
       setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
@@ -98,12 +86,6 @@ export default function DashboardPage() {
     });
   };
 
-  const formatVal = (val: number) => {
-    return `₹${new Intl.NumberFormat("en-IN", {
-      maximumFractionDigits: 0,
-    }).format(val)}`;
-  };
-
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -115,29 +97,20 @@ export default function DashboardPage() {
           className="flex flex-col gap-2"
         >
           <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
-            Compensation Dashboard
+            Market Data Explorer
           </h1>
           <p className="text-lg text-muted-foreground">
-            Analyze tech compensation benchmarks across India's top locations.
+            Search, filter, and compare compensation data across the industry.
           </p>
         </motion.div>
 
-        {/* Overview Stats */}
         <StatsCards
           totalCompanies={stats.totalCompanies}
-          totalRecords={records.length}
+          totalRecords={filteredRecords.length}
           averageCompensation={stats.averageCompensation}
           highestCompensation={stats.highestCompensation}
         />
 
-        {/* Analytics Charts */}
-        <div className="mt-4">
-          <SalaryCharts records={filteredRecords} />
-        </div>
-
-        <Separator className="my-6" />
-
-        {/* Comparison Floating Action Bar */}
         {comparedRecords.length > 0 && (
           <div className="fixed bottom-6 right-6 z-40 flex items-center gap-4 bg-primary text-primary-foreground px-4 py-3 rounded-full shadow-lg border border-primary/20 animate-in fade-in slide-in-from-bottom-4">
             <span className="text-sm font-semibold">
@@ -162,7 +135,6 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* Dashboard Workspace */}
         <div className="flex flex-col gap-6 lg:flex-row items-start">
           <FilterSidebar
             companies={companies}

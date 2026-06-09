@@ -8,12 +8,19 @@ import { CompareTable } from "@/components/compensation/CompareTable";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useSearchParams } from "next/navigation";
 import salariesData from "@/data/salaries.json";
 import { SalaryRecord } from "@/types/salary";
 
-export default function ComparePage() {
+function CompareContent() {
   const allRecords = React.useMemo(() => salariesData as SalaryRecord[], []);
-  const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
+  const searchParams = useSearchParams();
+  
+  const [selectedIds, setSelectedIds] = React.useState<string[]>(() => {
+    const ids = searchParams.get("ids");
+    if (!ids) return [];
+    return ids.split(",").filter((id) => allRecords.some((r) => r.id === id));
+  });
 
   const selectedRecords = React.useMemo(() => {
     return selectedIds
@@ -102,5 +109,13 @@ export default function ComparePage() {
         <CompareTable records={selectedRecords} />
       </main>
     </div>
+  );
+}
+
+export default function ComparePage() {
+  return (
+    <React.Suspense fallback={<div className="p-8 text-center">Loading comparison...</div>}>
+      <CompareContent />
+    </React.Suspense>
   );
 }

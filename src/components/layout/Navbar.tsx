@@ -18,12 +18,16 @@ export function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur-xl supports-[backdrop-filter]:bg-background/40">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2">
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tight text-primary">
-            <BarChart3 className="h-6 w-6" />
-            <span>CompIntel</span>
+          <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tight hover:opacity-80 transition-opacity">
+            <div className="bg-gradient-to-br from-primary to-primary/60 p-1.5 rounded-lg shadow-sm shadow-primary/20">
+              <BarChart3 className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
+              CompIntel
+            </span>
           </Link>
         </div>
 
