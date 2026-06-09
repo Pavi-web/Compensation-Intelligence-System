@@ -70,4 +70,3 @@ src/
 - **Type Safety**: Strictly enforced `types/salary.ts` interfaces map exactly to the underlying JSON dataset, ensuring zero runtime data coercion errors.
 
 ---
-*Developed for the Frontend Engineer Internship Project - Track C*
