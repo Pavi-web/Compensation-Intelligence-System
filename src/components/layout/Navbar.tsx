@@ -26,7 +26,7 @@ export function Navbar() {
               <BarChart3 className="h-5 w-5 text-primary-foreground" />
             </div>
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
-              CompIntel
+              CI
             </span>
           </Link>
         </div>

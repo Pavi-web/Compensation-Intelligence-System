@@ -49,7 +49,7 @@ export const CURRENCY_SYMBOLS: Record<CurrencyCode, string> = {
 
 /** Application metadata */
 export const APP_CONFIG = {
-  name: "CompIntel",
+  name: "CI",
   description: "Compensation Intelligence System",
   version: "1.0.0",
   defaultCurrency: "USD" as CurrencyCode,
@@ -59,13 +59,13 @@ export const APP_CONFIG = {
 
 /** Navigation items for the sidebar / header */
 export const NAV_ITEMS = [
-  { label: "Dashboard",    href: "/",             icon: "LayoutDashboard" },
-  { label: "Market Data",  href: "/market-data",  icon: "TrendingUp" },
-  { label: "Compare",      href: "/compare",      icon: "GitCompare" },
-  { label: "Benchmarks",   href: "/benchmarks",   icon: "Target" },
-  { label: "Trends",       href: "/trends",       icon: "LineChart" },
-  { label: "Calculator",   href: "/calculator",   icon: "Calculator" },
-  { label: "Settings",     href: "/settings",     icon: "Settings" },
+  { label: "Dashboard", href: "/", icon: "LayoutDashboard" },
+  { label: "Market Data", href: "/market-data", icon: "TrendingUp" },
+  { label: "Compare", href: "/compare", icon: "GitCompare" },
+  { label: "Benchmarks", href: "/benchmarks", icon: "Target" },
+  { label: "Trends", href: "/trends", icon: "LineChart" },
+  { label: "Calculator", href: "/calculator", icon: "Calculator" },
+  { label: "Settings", href: "/settings", icon: "Settings" },
 ] as const;
 
 /** Chart color palette — designed to be accessible & harmonious */

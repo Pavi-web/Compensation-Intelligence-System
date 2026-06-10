@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CompIntel — Compensation Intelligence System",
+  title: "CI — Compensation Intelligence System",
   description:
     "Analyze, compare, and benchmark compensation packages with real-time market data and interactive visualizations.",
   keywords: [
